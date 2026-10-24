@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ===== SEO ===== -->
+  <title>AURELIS — Rings, Bespoke Watches &amp; Leather Straps</title>
+  <meta name="description" content="AURELIS makes hand-finished rings, bespoke watches and leather watch straps, each piece made to order in our studio.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AURELIS — Objects made to be kept.">
+  <meta property="og:description" content="Hand-finished rings, bespoke watches and leather straps, made to order.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1200&q=80">
+
+  <!-- Fonts: Cormorant Garamond (headings) + Jost (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Design tokens ===== */
+    :root {
+      --bg: #faf9f7;
+      --ink: #1a1a1a;
+      --accent: #b8a78a;
+      --muted: #6f6a62;
+      --serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+      --sans: "Jost", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --ease: cubic-bezier(.4, 0, .2, 1);
+      --slow: 450ms;
+      --pad: clamp(1.25rem, 5vw, 4rem);
+      --section-y: clamp(4.5rem, 10vw, 8rem);
+    }
+
+    /* ===== Base ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; line-height: 1.1; }
+    :focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
+
+    /* ===== Header / nav =====
+       Transparent over the hero; .is-solid is added by JS after scrolling. */
+    .site-header {
+      position: fixed; inset: 0 0 auto 0; z-index: 50;
+      color: #fff;
+      transition: background var(--slow) var(--ease), color var(--slow) var(--ease),
+                  box-shadow var(--slow) var(--ease);
+    }
+    .site-header.is-solid {
+      background: rgba(250, 249, 247, .96);
+      color: var(--ink);
+      box-shadow: 0 1px 0 rgba(26, 26, 26, .08);
+      backdrop-filter: blur(6px);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1440px; margin: 0 auto;
+      padding: 1.4rem var(--pad);
+    }
+    .logo {
+      font-family: var(--serif); font-size: 1.65rem; font-weight: 400;
+      letter-spacing: .32em; padding-left: .32em; /* offsets trailing tracking */
+    }
+    .nav-links { display: flex; gap: clamp(1.5rem, 3vw, 3rem); list-style: none; margin: 0; padding: 0; }
+    .nav-links a {
+      position: relative; padding: .4rem 0;
+      font-size: .78rem; letter-spacing: .22em; text-transform: uppercase;
+    }
+    /* Subtle underline hover */
+    .nav-links a::after {
+      content: ""; position: absolute; left: 0; bottom: 0;
+      width: 100%; height: 1px; background: currentColor;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--slow) var(--ease);
+    }
+    .nav-links a:hover::after,
+    .nav-links a[aria-current="page"]::after { transform: scaleX(1); }
+
+    /* Hamburger (hidden on desktop) */
+    .menu-toggle {
+      display: none; background: none; border: 0; padding: .6rem; margin-right: -.6rem;
+      color: inherit; cursor: pointer;
+    }
+    .menu-toggle span {
+      display: block; width: 24px; height: 1px; background: currentColor;
+      transition: transform var(--slow) var(--ease), opacity var(--slow) var(--ease);
+    }
+    .menu-toggle span + span { margin-top: 7px; }
+    .menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; gap: 0; padding: .5rem var(--pad) 1.5rem;
+        background: var(--bg); color: var(--ink);
+        box-shadow: 0 1px 0 rgba(26, 26, 26, .08);
+        opacity: 0; visibility: hidden; transform: translateY(-8px);
+        transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease),
+                    visibility var(--slow);
+      }
+      .nav-links.is-open { opacity: 1; visibility: visible; transform: none; }
+      .nav-links a { display: inline-block; padding: .9rem 0; }
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      position: relative; min-height: 100vh; min-height: 100svh;
+      display: grid; place-items: center; text-align: center;
+      color: #fff; overflow: hidden; background: #2a2622;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      animation: kenburns 28s ease-out forwards; /* slow, tasteful zoom */
+    }
+    @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.07); } }
+    .hero::after { /* subtle dark gradient for legibility */
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.18) 40%, rgba(0,0,0,.5) 100%);
+    }
+    .hero-content { position: relative; z-index: 1; padding: 6rem var(--pad) 4rem; max-width: 900px; }
+    .hero h1 { font-size: clamp(2.6rem, 1.5rem + 5.5vw, 6rem); font-weight: 300; letter-spacing: .01em; }
+    .hero p {
+      margin: 1.5rem auto 2.75rem; max-width: 34ch;
+      font-size: clamp(1rem, .95rem + .3vw, 1.2rem); letter-spacing: .04em; opacity: .9;
+    }
+
+    /* Ghost button */
+    .btn {
+      display: inline-block; padding: 1.05rem 2.6rem;
+      border: 1px solid currentColor; background: transparent; color: inherit;
+      font: 400 .75rem var(--sans); letter-spacing: .3em; text-transform: uppercase;
+      transition: background var(--slow) var(--ease), color var(--slow) var(--ease),
+                  border-color var(--slow) var(--ease);
+    }
+    .hero .btn:hover { background: #fff; color: var(--ink); border-color: #fff; }
+
+    /* ===== Value statement ===== */
+    .statement { padding: var(--section-y) var(--pad); text-align: center; }
+    .statement p {
+      max-width: 36ch; margin: 0 auto;
+      font-family: var(--serif); font-weight: 300;
+      font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.4rem); line-height: 1.35;
+    }
+    .statement .rule { display: block; width: 48px; height: 1px; background: var(--accent); margin: 2.5rem auto 0; }
+
+    /* ===== Product-line cards ===== */
+    .lines { padding: 0 var(--pad) var(--section-y); max-width: 1440px; margin: 0 auto; }
+    .cards { display: grid; grid-template-columns: 1fr; gap: clamp(2rem, 3vw, 3rem); }
+    @media (min-width: 768px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+
+    .card { display: block; }
+    .card-media { position: relative; overflow: hidden; aspect-ratio: 4 / 5; background: #e8e4dc; }
+    .card-media img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 600ms var(--ease);
+    }
+    .card-media::after { /* soft caption overlay, fades in on hover */
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(26,26,26,.45));
+      opacity: 0; transition: opacity var(--slow) var(--ease);
+    }
+    .card-caption {
+      position: absolute; left: 1.5rem; right: 1.5rem; bottom: 1.4rem; z-index: 1;
+      color: #fff; font-size: .9rem; letter-spacing: .04em;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease);
+    }
+    .card:hover .card-media img,
+    .card:focus-visible .card-media img { transform: scale(1.03); }
+    .card:hover .card-media::after,
+    .card:hover .card-caption,
+    .card:focus-visible .card-media::after,
+    .card:focus-visible .card-caption { opacity: 1; transform: none; }
+
+    .card-body { padding-top: 1.5rem; }
+    .overline { font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); margin: 0 0 .6rem; }
+    .card h3 { font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem); }
+    .discover {
+      display: inline-block; margin-top: 1rem; padding-bottom: .25rem;
+      font-size: .78rem; letter-spacing: .2em; text-transform: uppercase;
+      border-bottom: 1px solid var(--accent);
+      transition: border-color var(--slow) var(--ease), letter-spacing var(--slow) var(--ease);
+    }
+    .card:hover .discover { border-color: var(--ink); letter-spacing: .24em; }
+
+    /* ===== Footer ===== */
+    .site-footer { border-top: 1px solid rgba(26,26,26,.1); padding: 4rem var(--pad) 2.5rem; text-align: center; }
+    .site-footer .logo { display: inline-block; font-size: 1.4rem; }
+    .social { display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; list-style: none; margin: 2rem 0; padding: 0; }
+    .social a { font-size: .75rem; letter-spacing: .22em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color var(--slow) var(--ease); }
+    .social a:hover { border-color: var(--accent); }
+    .fine { margin: 0; font-size: .8rem; color: var(--muted); }
+    .fine + .fine { margin-top: .4rem; }
+
+    /* ===== Reduced motion: no zoom, no smooth scroll, near-instant transitions ===== */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero-bg { animation: none; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== Sticky navigation ===== -->
+  <header class="site-header" id="header">
+    <nav class="nav" aria-label="Main">
+      <a href="#top" class="logo" aria-label="AURELIS home">AURELIS</a>
+
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#top" aria-current="page">Home</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ===== Hero ===== -->
+    <section class="hero" aria-label="Introduction">
+      <!-- HERO IMAGE: swap URL here -->
+      <img class="hero-bg"
+           src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=2000&q=80"
+           alt="A bespoke wristwatch with a dark leather strap resting in soft, warm light"
+           fetchpriority="high">
+      <div class="hero-content">
+        <!-- HERO COPY: edit headline, sub-statement and CTA here -->
+        <h1>Objects made to be kept.</h1>
+        <p>Rings, watches and straps, shaped by hand and made to order.</p>
+        <a class="btn" href="#gallery">Explore the Gallery</a>
+      </div>
+    </section>
+
+    <!-- ===== Value statement ===== -->
+    <section class="statement">
+      <p>Hand-finished rings, bespoke watches, and leather straps — each piece made to order in our studio.</p>
+      <span class="rule" aria-hidden="true"></span>
+    </section>
+
+    <!-- ===== Product lines ===== -->
+    <section class="lines" id="gallery" aria-label="Product lines">
+      <div class="cards">
+
+        <a class="card" href="gallery.html#rings">
+          <div class="card-media">
+            <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=80"
+                 alt="Close-up of a polished gold ring set with a single stone" loading="lazy">
+            <span class="card-caption">Cast, set and polished by hand.</span>
+          </div>
+          <div class="card-body">
+            <p class="overline">01 — Rings</p>
+            <h3>Rings</h3>
+            <span class="discover">Discover →</span>
+          </div>
+        </a>
+
+        <a class="card" href="gallery.html#watches">
+          <div class="card-media">
+            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=900&q=80"
+                 alt="A classic wristwatch with a brown leather strap on a neutral surface" loading="lazy">
+            <span class="card-caption">Built around your choice of dial and case.</span>
+          </div>
+          <div class="card-body">
+            <p class="overline">02 — Bespoke Watches</p>
+            <h3>Bespoke Watches</h3>
+            <span class="discover">Discover →</span>
+          </div>
+        </a>
+
+        <a class="card" href="gallery.html#straps">
+          <div class="card-media">
+            <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=900&q=80"
+                 alt="Close-up of a stitched leather watch strap with a steel buckle" loading="lazy">
+            <span class="card-caption">Cut, stitched and finished to your wrist.</span>
+          </div>
+          <div class="card-body">
+            <p class="overline">03 — Leather Straps</p>
+            <h3>Bespoke Leather Straps</h3>
+            <span class="discover">Discover →</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <a href="#top" class="logo" aria-label="AURELIS home">AURELIS</a>
+    <ul class="social">
+      <li><a href="https://instagram.com/" rel="noopener">Instagram</a></li>
+      <li><a href="https://pinterest.com/" rel="noopener">Pinterest</a></li>
+      <li><a href="mailto:hello@aurelis.example">Email</a></li>
+    </ul>
+    <p class="fine">All purchases are completed through our secure external checkout.</p>
+    <p class="fine">&copy; <span id="year">2026</span> AURELIS. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Header turns solid after scrolling past a small threshold.
+    const header = document.getElementById('header');
+    const toggle = document.getElementById('menuToggle');
+    const links  = document.getElementById('navLinks');
+
+    function updateHeader() {
+      // Stay solid while the mobile menu is open so links remain legible.
+      const solid = window.scrollY > 40 || links.classList.contains('is-open');
+      header.classList.toggle('is-solid', solid);
+    }
+    window.addEventListener('scroll', updateHeader, { passive: true });
+
+    // Mobile menu toggle
+    function setMenu(open) {
+      links.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      updateHeader();
+    }
+    toggle.addEventListener('click', () => setMenu(!links.classList.contains('is-open')));
+    links.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    updateHeader();
+  </script>
+</body>
+</html>
